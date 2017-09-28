@@ -1,3 +1,10 @@
+## Introduction
+
+It's a common misconception that the greatest air quality concerns should be about the smog outside. Because of inadequate ventilation and chemically-treated building materials, the air inside a home or office can be up to 5 times more polluted than outdoors. This becomes a critical concern in high traffic environments, where pollutants can quickly accumulate. 
+
+I completed a data science consulting project for a sensor company in the indoor air quality space. Their product currently tracks five common pollutants in indoor environments and alerted a manager when their air had reached hazardous levels. They wanted to provide their users' with an advanced warning, so a building manager had amble time to react before the air reached a hazardous state.
+
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/Mangarella/BreatheFree/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
