@@ -1,8 +1,23 @@
+### Breathe Free
+
 ## Introduction
 
-It's a common misconception that the greatest air quality concerns should be about the smog outside. Because of inadequate ventilation and chemically-treated building materials, the air inside a home or office can be up to 5 times more polluted than outdoors. This becomes a critical concern in high traffic environments, where pollutants can quickly accumulate. 
+It's a common misconception that the greatest air quality concerns should be about the smog outside. Because of inadequate ventilation and chemically-treated building materials, the air inside a home or office can be up to 5 times more polluted than outdoors. This becomes a critical concern in high traffic environments, where pollutants quickly accumulate. 
 
-I completed a data science consulting project for a sensor company in the indoor air quality space. Their product currently tracks five common pollutants in indoor environments and alerted a manager when their air had reached hazardous levels. They wanted to provide their users' with an advanced warning, so a building manager had amble time to react before the air reached a hazardous state.
+I completed a data science consulting project for a sensor company in the indoor air quality space. Their product currently tracks five common pollutants in indoor environments and alerted a manager when their air had reached hazardous levels. They wanted to provide their users' with an 8-hour forecast, so a building manager had amble time to react before the air reached a hazardous state.
+
+## The Test Case
+
+Historical pollutant data was taken from 400 users were selected from one major metropolitan city. Each pollutant has a resolution of 15 minutes, and varies from 2 years to ~3 months of data depending on the user. Total data set is ~1 Gb. Looking at 4 separate locations below, we can see this data is going to present a challenge for traditional statistical models for several reasons..
+
+
+![4_location_plot](Images/4_plot_test.png)
+
+- Little stationarity, very unique behavioral processes (with noise) for each location.
+- Regression error metrics (i.e. RMSE), that are not guaranteed to optimize the classification of toxic events.
+- A large (32 * 15 min) multi-step forecast is required, and since the reading from intermediate 15 minute time-steps matter, the data cannot be smoothed into a one-step forecasting problem.
+
+## Turning Forecasting into Classification
 
 
 ## Welcome to GitHub Pages
