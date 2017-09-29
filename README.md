@@ -10,8 +10,7 @@ I completed a data science consulting project for a sensor company in the indoor
 
 Historical pollutant data was taken from 400 users were selected from one major metropolitan city. Each pollutant has a resolution of 15 minutes, and varies from 2 years to ~3 months of data depending on the user. Total data set is ~1 Gb. Looking at 4 separate locations below, we can see this data is going to present a challenge for traditional statistical models for several reasons...
 
-
-![4_location_plot](Images/4_plot_test.png)
+<div style="text-align:center"><img src ="Images/4_plot_test.png" /></div>
 
 - Little stationarity, very unique behavioral processes (with noise) for each location.
 - Regression error metrics (i.e. RMSE) are not guaranteed to optimize the classification of toxic events.
