@@ -20,7 +20,7 @@ Most time series forecasting relies on the assumption that the time series is st
 
 A traditional time series model is a regression model, and the parameters of a statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize the results of a classification problem, i.e. correcting predicting when the time series will enter the hazardous zone in the next 8 hours.
 
-Lastly, A large multi step forecast is required. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
+Lastly, a large multi step forecast is required. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
 
 
 ## Turning Time Series Forecasting into Generalized Classification
@@ -42,15 +42,16 @@ With these assumptions, I engineered features to represent previous location-spe
 
 ## Feature Engineering
 
+<div style="text-align:center"><img src ="Images/feature_engineering.png" /></div>
+
 Five main types of features were fed to a Gradient Boosted Classifier:
-- **Date and Time Features:** Day of week, time of day.
-- **General Trend Features:** Rolling Mean, Median, Max, and Standard Deviation of **Pollutant A** for the past 1hr, 4 hrs, 8 hrs
-- **Derivative Features:**  Rolling Mean, Median, Standard Deviation, Skew, and Kurtosis of the rate of change for **Pollutant A** for the past 2.5 hrs
-- **Outdoor weather data:** Daily Humidity, Temperature, Precipitation, and Dew Point data scraped from [Weather Underground](https://www.wunderground.com)
+1. **Date and Time:** Day of week, time of day to capture differences between weekday and weekend schedules.
+2. **General Trend:** Rolling Mean, Median, Max, and Standard Deviation of **Pollutant A** for the past 1hr, 4 hrs, 8 hrs to capture general trends of a location and previous behavior. 
+3. **Rate of Change Trend:**  Rolling Mean, Median, Standard Deviation, Skew, and Kurtosis for the rate of change for **Pollutant A** to capture a characteristic sensor response of similiar behaviors between different locations.
+4. **Outdoor Weather:** Daily Humidity, Temperature, Precipitation, and Dew Point data scraped from [Weather Underground](https://www.wunderground.com) using ['Beautiful Soup'](https://pypi.python.org/pypi/beautifulsoup4) to capture seasonal effects.
+5. **Pollutant Level:** Current Level of **Pollutant A** to factor in the distance to the hazardous level.
 
-These features were chosen to be a mix of features specific to each Some features have high correlation (particularly any Rolling Mean and Median), but it's very useful to include both as sensor data can be suspectible to noise that will greatly influence the mean versus the median. Traditional tree based models still learn very well in the presence of highly correlated features, and 
-
-Other types of features that were initially fed to the model with little success were:
+Some features have high correlation (particularly any Rolling Mean and Median), but it's very useful to include both as sensor data can be suspectible to noise that will greatly influence the mean versus the median, and traditional tree based models still learn very well in the presence of highly correlated features. 
 
 
 ## 
