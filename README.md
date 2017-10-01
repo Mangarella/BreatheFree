@@ -11,7 +11,7 @@
 
 [**3. Feature Engineering**](#feat_engineering)
 
-[**4. The Model and Dealing with Skewed Data Sets**](#model_skew)
+[**4. Modeling with Unbalanced Data**](#model_skew)
 
 [**5. Model Metrics that Matter**](#scoring)
 
@@ -48,9 +48,7 @@ Lastly, a large multi step forecast is required. The resolution of this data is 
 
 So what's a better alternative for this problem? At it's core, the accumulation of pollution in an indoor environment comes from, well, us. Even on a pristine environment like the [International Space Station](https://science.nasa.gov/science-news/science-at-nasa/2000/ast13nov_1), many toxins are emitted from the astronauts themselves and complex filtration systems are needed keep the air breathable. 
 
-Assuming this same concept applies on earth, I know that the behavior of people at each location causes pollutants to rise. If three people walk into a room and start kicking up dust from the carpet, this behavior is represented characteristic pattern in the sensor data.
-
-These human behaviors are likely **repetitive** for each location, with a large amount of non-periodic delay inbetween. These behaviors are also likely to be **generalizable**, and the sensor response for each behavior is likely to match other location that have similar ventilation, building materials, and human traffic. 
+Assuming this same concept applies on earth, I know that the behavior of people at each location causes pollutants to rise. These human behaviors are likely **repetitive** for each location, with a large amount of non-periodic delay inbetween. These behaviors are also likely to be **generalizable**, and the sensor response for each behavior is likely to match other location that have similar ventilation, building materials, and human traffic. 
 
 With these assumptions, I engineered features to represent previous location-specific behavior **and** similar behavior between locations to transform this problem into a binary classification problem where each 15 minute time point was labeled as: 
 
@@ -74,12 +72,12 @@ Five main types of features were fed to a Gradient Boosted Classifier:
 Some features have high correlation (particularly any Rolling Mean and Median), but it's very useful to include both as sensor data can be suspectible to noise that will greatly influence the mean versus the median, and traditional tree based models still learn very well in the presence of highly correlated features. 
 
 
-# <a name="model_skew">Model Metrics that Matter</a>
+# <a name="model_skew">Modeling with Unbalanced Data</a>
 
 
 
 
-# <a name="scoring">Custom Scoring Metrics</a>
+# <a name="scoring">Model Metrics that Matter</a>
 
 
 
