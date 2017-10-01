@@ -14,7 +14,7 @@ However, currently they can only alert occupants **after the air has become haza
 
 Historical pollutant data, user data, and location data was accessed from the company's database through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city. The sensor records an average reading of the previous 15 minutes, and historical data goes back up to 2 years for each location. Looking at a weeks worth of data for 4 separate locations below, we can see that predicting if **Pollutant A** is going to cross into the danger zone (seen in red) is going to be very challenging for traditional statistical time series forecasting models. 
 
-<div style="text-align:center"><img src ="Images/4_plot_test.png" /></div>
+<div style="text-align:center"><img src ="Images/4_plot.png" /></div>
 
 Most time series forecasting relies on the assumption that the time series is stationary, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some periodic measure of time. I could go through the trouble to de-season and de-trend the data for each location into a stationary time series, but I would quickly hit another roadblock:
 
