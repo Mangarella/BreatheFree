@@ -44,6 +44,12 @@ def get_num_days(year, month):
     return num_days
 
 def scrape_daily_weather_summary(years=range(2016,2018)):
+    '''
+    Scrape data from weather underground for a given location
+    Generally takes 1 second per day
+    Input years (preferably in range or list)
+    Output dictionary with key = date, value = daily weather
+    '''
     
     dict_weather = {}
     
@@ -69,7 +75,8 @@ def scraped_data_to_df(weather_dict):
     '''
     Transforms dictionary of scraped weather to a dataframe
     Input = weather_dict from scrape_daily_weather_summary
-    Output = time series dataframe for a given location'''
+    Output = time series dataframe for a given location
+    '''
     
     df_weather = pd.DataFrame.from_dict(weather_dict, orient = 'index')
     df_weather.index = pd.to_datetime(df_weather.index)
