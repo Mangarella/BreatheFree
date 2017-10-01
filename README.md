@@ -4,29 +4,39 @@
 
 It's a common misconception that the most polluted air is the smog outside. Inadequate ventilation, chemically-treated building materials, and high traffic areas can commonly cause the air inside a home or office can be up to 5 times more polluted than outdoors. 
 
-As part of Insight Data Science, I completed a data science consulting project for a sensor company in the indoor air quality space. Their product tracks five pollutants in indoor environments and alerts occupants when a pollutant had reached hazardous levels. However, currently they can only alert occupants **at the last minute**. They wanted to provide their users' with an 8-hour warning, so there was amble time to take measures (by increasing ventilation, disinfecting surfaces, etc.) **before it's too late.**
+As part of Insight Data Science, I completed a data science consulting project for an indoor air quality sensor company. Their product tracks five pollutants in indoor environments and alerts occupants when a pollutant had reached hazardous levels. 
 
-## The Data and Challenge for Traditional Time Series Forecasting
+However, currently they can only alert occupants **after the air has become hazardous**. They wanted to provide their users' with an 8-hour warning, so there was amble time to take measures and ventilate the indoor area **before it's too late.**
 
-Historical pollutant data, user data, and location data was accessed from the company's databases through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city for a harmful gas that will be anonymously refered to as **Pollutant A**. Each pollutant has a resolution of 15 minutes, and historical data goes back up to 2 years for each user. Looking at a weeks worth of data for 4 separate locations below, we can see that predicting if **Pollutant A** is going to cross into the danger zone (seen in red) will be very challenging for traditional statistical time series forecasting models. 
+## The Data and Challenges for Traditional Time Series Forecasting
+
+Historical pollutant data, user data, and location data was accessed from the company's database through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city. The sensor records an average reading of the previous 15 minutes, and historical data goes back up to 2 years for each location. Looking at a weeks worth of data for 4 separate locations below, we can see that predicting if **Pollutant A** is going to cross into the danger zone (seen in red) is going to be very challenging for traditional statistical time series forecasting models. 
 
 <div style="text-align:center"><img src ="Images/4_plot_test.png" /></div>
 
-Most time series forecasting relies on the assumption that the time series is stationary, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some periodic measure of time. I could go through the trouble to de-season and de-trend the data into a stationary time series, but I would quickly hit another roadblock:
+Most time series forecasting relies on the assumption that the time series is stationary, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some periodic measure of time. I could go through the trouble to de-season and de-trend the data for each location into a stationary time series, but I would quickly hit another roadblock:
 
 
 Insert time series forecast image here
 
-A traditional time series model is a regression model, and the parameters of any interesting statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize for the classification of toxic events.
 
-Lastly, A large (32 * 15 min = 8 hours) multi-step forecast is required, and since I need to know if **any** future 15 minute interval hits an unsafe range, the data cannot be smoothed into a one-step forecasting problem.
+A traditional time series model is a regression model, and the parameters of a statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize for a classification problem, where the metric is correct binary classification of whenever the time series is going to cross the danger zone within the next 8 hours.
+
+Lastly, A large multi step forecast is required. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
 
 
 ## Turning Time Series Forecasting into Generalized Classification
 
-On a very high level, this is likely unique behavioral processes (with noise) for each location.
+
+Now that we've stepped away from statistical regression models, what's a better alternative for this problem? At it's core, the accumulation of pollution in an indoor environment comes from, well, us. Even on a pristine environment like the [International Space Station](https://science.nasa.gov/science-news/science-at-nasa/2000/ast13nov_1), many toxins are emitted from the astronauts themselves and require complex filtration systems to keep the air safe. 
+
+How does this knowledge translate to indoor environments on Earth? On a very high level, I can assume that the behavior of people at each location causes pollutants to rise. If three people walk into a room and start kicking up dust from the carpet, this behavior can be linked to some characteristic pattern in the sensor data. 
+
+These behaviors are likely **repetitive**, with a lot of randomness and non-periodic delay inbetween. They should also **generalize** well, signal characteristics from some locations is likely going to match other rooms that have similar ventilation, building materials, and human traffic. Features can be engineered to represent previous location behavior **and** similar behavior between locations, and these can be fed into a supervised learning algorithm to classify future events.
 
 
+
+The real proof for these assumptions will be to engineer features that pick up these localized patterns in the data.
 
 ## About Me
 
