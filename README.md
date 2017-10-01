@@ -2,57 +2,32 @@
 
 ## Introduction
 
-It's a common misconception that the greatest air quality concerns should be about the smog outside. Because of inadequate ventilation and chemically-treated building materials, the air inside a home or office can be up to 5 times more polluted than outdoors. This becomes a critical concern in high traffic environments, where pollutants quickly accumulate. 
+It's a common misconception that the most polluted air is the smog outside. Inadequate ventilation, chemically-treated building materials, and high traffic areas can commonly cause the air inside a home or office can be up to 5 times more polluted than outdoors. 
 
-I completed a data science consulting project for a sensor company in the indoor air quality space. Their product currently tracks five common pollutants in indoor environments and alerted a manager when their air had reached hazardous levels. They wanted to provide their users' with an 8-hour forecast, so a building manager had amble time to react before the air reached a hazardous state.
+As part of Insight Data Science, I completed a data science consulting project for a sensor company in the indoor air quality space. Their product tracks five pollutants in indoor environments and alerts occupants when a pollutant had reached hazardous levels. However, currently they can only alert occupants **at the last minute**. They wanted to provide their users' with an 8-hour warning, so there was amble time to take measures (by increasing ventilation, disinfecting surfaces, etc.) **before it's too late.**
 
-## The Test Case
+## The Data and Challenge for Traditional Time Series Forecasting
 
-Historical pollutant data was taken from 400 users were selected from one major metropolitan city. Each pollutant has a resolution of 15 minutes, and varies from 2 years to ~3 months of data depending on the user. Total data set is ~1 Gb. Looking at 4 separate locations below, we can see this data is going to present a challenge for traditional statistical models for several reasons...
+Historical pollutant data, user data, and location data was accessed from the company's databases through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city for a harmful gas that will be anonymously refered to as **Pollutant A**. Each pollutant has a resolution of 15 minutes, and historical data goes back up to 2 years for each user. Looking at a weeks worth of data for 4 separate locations below, we can see that predicting if **Pollutant A** is going to cross into the danger zone (seen in red) will be very challenging for traditional statistical time series forecasting models. 
 
 <div style="text-align:center"><img src ="Images/4_plot_test.png" /></div>
 
-- Little stationarity, very unique behavioral processes (with noise) for each location.
-- Regression error metrics (i.e. RMSE) are not guaranteed to optimize the classification of toxic events.
-- A large (32 * 15 min = 8 hours) multi-step forecast is required, and since the reading from intermediate 15 minute time-steps matter, the data cannot be smoothed into a one-step forecasting problem.
-
-## Turning Forecasting into Classification
+Most time series forecasting relies on the assumption that the time series is stationary, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some periodic measure of time. I could go through the trouble to de-season and de-trend the data into a stationary time series, but I would quickly hit another roadblock:
 
 
-## Welcome to GitHub Pages
+Insert time series forecast image here
 
-You can use the [editor on GitHub](https://github.com/Mangarella/BreatheFree/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+A traditional time series model is a regression model, and the parameters of any interesting statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize for the classification of toxic events.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Lastly, A large (32 * 15 min = 8 hours) multi-step forecast is required, and since I need to know if **any** future 15 minute interval hits an unsafe range, the data cannot be smoothed into a one-step forecasting problem.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Turning Time Series Forecasting into Generalized Classification
 
-```markdown
-Syntax highlighted code block
+On a very high level, this is likely unique behavioral processes (with noise) for each location.
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+## About Me
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Mangarella/BreatheFree/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+My name is Michael Mangarella (Mike). I'm a chemical engineer and data scientist. I received my PhD in Chemical and Biomolecular Engineering from Georgia Tech in 2015, and spent the last year running a startup to turn gas filtration technology from my dissertation into viable military grade gas filters. Most of my passion for data science comes from my minor in quantitative finance, and a couple years developing retail options trading strategies. I joined Insight in Fall 2017 to continue my technical development. 
