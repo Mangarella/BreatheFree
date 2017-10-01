@@ -6,7 +6,9 @@ It's a common misconception that the most polluted air is the smog outside. Inad
 
 As part of Insight Data Science, I completed a data science consulting project for an indoor air quality sensor company. Their product tracks five pollutants in indoor environments and alerts occupants when a pollutant had reached hazardous levels. 
 
-However, currently they can only alert occupants **after the air has become hazardous**. They wanted to provide their users' with an 8-hour warning, so there was amble time to take measures and ventilate the indoor area **before it's too late.**
+However, currently they can only alert occupants **after the air has become hazardous**. They wanted to provide their users' with an 8-hour warning, so there was amble time to take measures and ventilate the indoor area **before it's too late.** The goal of the project was to design a forecasting to predict when a pollutant would occur, so they could alert the user and allow them to take action.
+
+<div style="text-align:center"><img src ="Images/intro_image.png" /></div>
 
 ## The Data and Challenges for Traditional Time Series Forecasting
 
@@ -32,11 +34,24 @@ Now that we've stepped away from statistical regression models, what's a better 
 
 How does this knowledge translate to indoor environments on Earth? On a very high level, I can assume that the behavior of people at each location causes pollutants to rise. If three people walk into a room and start kicking up dust from the carpet, this behavior can be linked to some characteristic pattern in the sensor data. 
 
-These behaviors are likely **repetitive**, with a lot of randomness and non-periodic delay inbetween. They should also **generalize** well, signal characteristics from some locations is likely going to match other rooms that have similar ventilation, building materials, and human traffic. Features can be engineered to represent previous location behavior **and** similar behavior between locations, and these can be fed into a supervised learning algorithm to classify future events.
+These behaviors are likely **repetitive**, with some randomness and non-periodic delay inbetween. These behaviors are also likely to **generalize**, and signal characteristics from some locations is likely going to match other rooms that have similar ventilation, building materials, and human traffic. With these assumptions, I engineered features to represent previous location-specific behavior **and** similar behavior between locations, applied them to each time point for each of the 400 locations, and then used a supervised learning algorithm where each time point that **crossed or remain above the hazardous level in the next 8 hours was labeled Class 1** and each time point that **remained below the hazardous level was labeled Class 0**.
 
 
+## Feature Engineering
 
-The real proof for these assumptions will be to engineer features that pick up these localized patterns in the data.
+Five main types of features were fed to a Gradient Boosted Classifier:
+- **Date and Time Features:** Day of week, time of day.
+- **General Trend Features:** Rolling Mean, Median, Max, and Standard Deviation of **Pollutant A** for the past 1hr, 4 hrs, 8 hrs
+- **Derivative Features:**  Rolling Mean, Median, Standard Deviation, Skew, and Kurtosis of the rate of change for **Pollutant A** for the past 2.5 hrs
+- **Outdoor weather data:** Daily Humidity, Temperature, Precipitation, and Dew Point data scraped from [Weather Underground](https://www.wunderground.com)
+
+These features were chosen to be a mix of features specific to each Some features have high correlation (particularly any Rolling Mean and Median), but it's very useful to include both as sensor data can be suspectible to noise that will greatly influence the mean versus the median. Traditional tree based models still learn very well in the presence of highly correlated features, and 
+
+Other types of features that were initially fed to the model with little success were:
+
+
+## 
+
 
 ## About Me
 
