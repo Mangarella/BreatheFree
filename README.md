@@ -116,3 +116,6 @@ This development spanned three weeks at Insight, and many other features could b
 # <a name="about_me">About Me</a>
 
 My name is Michael Mangarella (Mike). I'm a chemical engineer and a data scientist. I received my PhD in Chemical and Biomolecular Engineering from Georgia Tech in 2015, and spent the last year running a startup to turn gas filtration technology from my dissertation into viable military grade gas filters. My passion for data science comes from a minor in quantitative finance, and a couple years developing retail options trading strategies. I joined Insight in Fall 2017. 
+
+---
+[Slides](https://docs.google.com/presentation/d/e/2PACX-1vSLc1owPlv2reRuZfIXAeGu7AfzH6ZXROq9W3mCDT1TeGO6ppMe7EOTgLyckw07iOBVx-uO9wDMguSe/pub?start=false&loop=false&delayms=3000&slide=id.g256d28c48b_0_586)
