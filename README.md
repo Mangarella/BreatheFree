@@ -7,7 +7,7 @@
 
 [**2. Challenges for Traditional Time Series Forecasting**](#stats_challenges)
 
-[**3. Turning Time Series Forecasting into Generalized Classification**](#classification_setup)
+[**3. Turning Time Series Forecasting into Classification**](#classification_setup)
 
 [**3. Feature Engineering**](#feat_engineering)
 
@@ -32,18 +32,18 @@ However, currently they can only alert occupants **after the air has become haza
 
 # <a name="stats_challenges">Challenges for Traditional Time Series Forecasting</a>
 
-Historical pollutant data, user data, and location data was accessed from the company's database through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city. The sensor records an average reading of the previous 15 minutes, and historical data goes back up to 2 years for each location. Looking at a weeks worth of data for 4 separate locations below, we can see that predicting if **Pollutant A** is going to reach a hazardous level (seen in red) will be very challenging for traditional statistical time series models. 
+Historical pollutant data, user data, and location data was accessed from the company's database through Google BigQuery. As a test case, data was taken from 400 users in a major metropolitan city. The sensor records an average reading of the previous 15 minutes, and historical data goes back up to 2 years for each location. Looking at a weeks worth of data for 4 separate locations below, it's clear that predicting if **Pollutant A** is going to reach a hazardous level (seen in red) will be very challenging for traditional statistical time series models. 
 
 <div style="text-align:center"><img src ="Images/4_plot.png" /></div>
 
-Most time series forecasting relies on the assumption that the time series is stationary, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some period of time. I could go through the trouble to de-season and de-trend the data for each location to achieve stationarity, but I would quickly hit another roadblock when training my model.
+Most time series forecasting rely on the assumption that the time series is **stationary**, meaning that the mean, standard deviation, and autocorrelation (correlation to previous time points) are constant for some period of time. I could go through the trouble to de-season and de-trend the data for each location to achieve stationarity, but I would quickly hit another roadblock when training my model.
 
 A traditional time series model is a regression model, and the parameters of a statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize the results of a classification problem, i.e. correcting predicting when the time series will enter the hazardous zone in the next 8 hours.
 
 Lastly, a large multi step forecast is required, which compounds the errors and difficult. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
 
 
-# <a name="classification_setup">Turning Time Series Forecasting into Generalized Classification</a>
+# <a name="classification_setup">Turning Time Series Forecasting into Classification</a>
 
 
 So what's a better alternative for this problem? At it's core, the accumulation of pollution in an indoor environment comes from, well, us. Even on a pristine environment like the [International Space Station](https://science.nasa.gov/science-news/science-at-nasa/2000/ast13nov_1), many toxins are emitted from the astronauts themselves and complex filtration systems are needed keep the air breathable. 
@@ -77,15 +77,35 @@ The last challenge I needed to tackle before training my model is the class imba
 
 <div style="text-align:center"><img src ="Images/model_method.png" /></div>
 
-Removing many samples of the majority class (**undersampling**) to balance the amount of Class 1 and 0 in the training data can be used to help an algorithm learn the distinct difference between the classes. Training a model on balanced data tends to greatly lower the amount of false negatives (missing a forecasted dangerous event) but will also tend to raise the amount of false positives (forecasting a dangerous event when there isn't one) as the model has been trained on an abnormally high percentage of Class 1 data. To selectively lower the false positive rate, I trained 10 separate models on randomized sections of the training data, recorded the predictions of each model, and then took a majority vote. A more in-depth demo of this methodology can be found [here](https://www.kaggle.com/mangarella/ensemble-modeling-with-skewed-datasets). 
+Removing many samples of the majority class (**undersampling**) to balance the amount of Class 1 and 0 in the training data can be used to help an algorithm learn the distinct difference between the classes. Training a model on balanced data tends to greatly lower the amount of false negatives (missing a forecasted dangerous event) but will also tend to raise the amount of false positives (forecasting a dangerous event when there isn't one) as the model has been trained on an abnormally high percentage of Class 1 data. 
 
-This approach gave great results. The confusion matrix below shows the model correctly
+To selectively lower the false positive rate, I trained 10 separate models on randomized sections of the training data, recorded the predictions of each model, and then took a majority vote. A more in-depth demo of this methodology can be found [here](https://www.kaggle.com/mangarella/ensemble-modeling-with-skewed-datasets). 
 
 # <a name="scoring">Model Metrics that Matter</a>
-I have made a substantial shift from the norm of time series forecasting, and that also requires a shift from the normal evaluation metrics. Even though the confusion matrix above 
 
+The above approach gave great results. The confusion matrix below shows the model is correctly selecting most of the future hazardous events (with 88% recall) and after ensembling to lower the false positive rate, it's doing a good job of only identifying the events will become hazardous (71% precision). 
+
+From the top feature importances, I can see that much of the success is coming from features that correspond to repeated patterns of a location, with some contribution from derivative features that correspond to similar behavior between users, and some date features. 
+
+<div style="text-align:center"><img src ="Images/model_eval.png" /></div>
+
+But before I check this off as a success, the model needs much more further validation. One glaring concern is this is **sequential data**, and it's been evaluated on **non-sequential** evaluation metrics. What matters most for this use-case is the time a user has to react to a toxic event, so I wrote a custom evaluation function to record the model lag - the time between when the 8-hour window starts, and when the model predicts an event will occur within the next 8 hours.
+
+<img align="right" width="400px" src="Images/custom_metrics.png" hspace="40" vspace="40">
+
+For each user the function:
+- Scans for when an 8 hour window starts (the true class changes from 0 to 1).
+- Measures the time it takes the model to make a prediction (the predicted class changes from 0 to 1)
+- Repeats the process when the window ends (the true class shifts back from 1 to 0) and a new window starts (the true class changes from 0 to 1 again)
+
+I have plotted the percentage of events predicted versus time remaining. I can see that the model is still holding up well, with **>60% of events predicted** the second the 8 hour forecast starts and **_>85% of events predicted_** with 4 hours remaining. 
 
 # <a name="future">Summary and Future Directions</a>
+In summary, I've developed a model that can effectively forecast when the indoor air will become hazardous up to 8 hours beforehand. This effectively turns a stressful alert into an actionable forecast, allowing users to efficiently manage their indoor air quality.  
+
+This development spanned three weeks at Insight, and many other features could be integrated to further improve the model. Some things I've tooled around with, but didn't make the final cut, are:
+
+1. **Location Data** - There are some snippets of code that add in location data for each location. When locations are relatively nearby to each other, i.e. the same city, their latitude and longitude can be approximated to x and y coordinates, ignoring the curvative of the Earth (more info [here](https://stackoverflow.com/questions/16266809/convert-from-latitude-longitude-to-x-y)). I was very interested in addin a feature that would compare locations to their 5 or 6 closest neighbors. The first part, determining those neighbors, is relatively easy and can be searched quickly using a [KDTree](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.KDTree.html). The second part, computing the covariance between a location and the rolling mean of its five closest neighbors becomes a bit trickier. A majority of locations will have a unique set of five closest neighbors, and each set would have to be quered, computed, and then stored.
 
 
 # <a name="about_me">About Me</a>
