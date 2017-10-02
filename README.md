@@ -40,7 +40,7 @@ Most time series forecasting rely on the assumption that the time series is **st
 
 A traditional time series model is a regression model, and the parameters of a statistical model (ARIMA, ARMAX, etc.) are fit on the basis of minimizing a cost function (such as least squares) and this minimization is not guaranteed to optimize the results of a classification problem, i.e. correcting predicting when the time series will enter the hazardous zone in the next 8 hours.
 
-Lastly, a large multi step forecast is required, which compounds the errors and difficult. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
+Lastly, a large multi step forecast is required, which compounds the difficulty and model error. The resolution of this data is 15 minutes and I need to predict if **any** future 15 minute interval within the next 8 hours hits an unsafe range, so the data cannot be smoothed into a one-step forecasting problem. 
 
 
 # <a name="classification_setup">Turning Time Series Forecasting into Classification</a>
