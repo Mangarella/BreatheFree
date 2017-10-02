@@ -24,9 +24,9 @@
 
 It's a common misconception that the most polluted air is the smog outside. Inadequate ventilation, chemically-treated building materials, and high traffic areas can commonly cause the air inside a home or office can be up to 5 times more polluted than outdoors. 
 
-As part of [Insight Data Science](insightdatascience.com), I completed a data science consulting project for an indoor air quality sensor company. Their product tracks five pollutants and alerts occupants when a pollutant had reached hazardous levels. 
+As part of [Insight Data Science](insightdatascience.com), I completed a data science consulting project for an indoor air quality sensor company. Their product tracks five pollutants and alerts occupants when a pollutant has reached hazardous levels. 
 
-However, currently they can only alert occupants **after the air has become hazardous**. The goal of the project was to design a forecasting model so the company could provide users with an 8-hour warning, giving them time to ventilate the area **before it's too late.**
+However, currently their product could only alert occupants **after the air had become hazardous**. The goal of the project was to design a forecasting model so the company could provide users with an 8-hour warning, giving them ample time to ventilate the area **before it's too late.**
 
 <div style="text-align:center"><img src ="Images/intro_image.png" /></div>
 
