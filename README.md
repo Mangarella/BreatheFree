@@ -96,7 +96,7 @@ But before I check this off as a success, the model needs much more further vali
 For each user the function:
 - Scans for when an 8 hour window starts (the true class changes from 0 to 1).
 - Measures the time it takes the model to make a prediction (the predicted class changes from 0 to 1)
-- Repeats the process when the window ends (the true class shifts back from 1 to 0) and a new window starts (the true class changes from 0 to 1 again)
+- Repeats the process when the window ends (the true class shifts back from 1 to 0) and a new window starts (the true class changes again from 0 to 1)
 
 I have plotted the percentage of events predicted versus time remaining. I can see that the model is still holding up well, with **>60% of events predicted** the second the 8 hour forecast starts and **_>85% of events predicted_** with 4 hours remaining. 
 
