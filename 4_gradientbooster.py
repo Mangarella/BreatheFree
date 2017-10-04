@@ -7,7 +7,13 @@ from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import GradientBoostingClassifier
 
 class GradientBooster():
+    '''Gradient Booster Class to set up classification (classification_setup)
+    perform undersampling (under_sample_folds)
+    train a GBM model (make_model)
+    and evaluate the model (add_fold_predictions, time_series_eval)
     
+    Input: Data for a FeatureEngineering Object.
+    '''
     
     def __init__(self, df_agg_data):
         '''Initialize with feature set data'''
@@ -55,7 +61,6 @@ class GradientBooster():
         #Remove data leakage features
         self.features.remove(var + '_cutoff')
         self.features.remove(var + '_future_max')
-    
     
     
     def under_sample_kfold(self, var = 'toxin_a', n_folds = 10):
