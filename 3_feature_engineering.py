@@ -25,8 +25,7 @@ class FeatureEngineering:
         
     
     def add_rolling_stats(self, times=[4, 16, 32], 
-                          labels=['1h', '4h', '8h'],
-                          kurt_skew_std = False):
+                          labels=['1h', '4h', '8h']):
         '''
         Method to add rolling statistics to historical sensor readings
         
