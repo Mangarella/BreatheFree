@@ -1,1 +1,1 @@
-Images derived from Time Series Analysis on Pollutant D.
+Images derived from Time Series Analysis on one Pollutant.
