@@ -87,7 +87,7 @@ The above approach gave great results. The confusion matrix below shows the mode
 
 The top feature importances show much of the predictive power is coming from features that correspond to repeated patterns of a location, with some contribution from derivative features that correspond to similar behavior between users, and some date features.
 
-<div style="text-align:center"><img src ="Images/model_eval.png" /></div>
+<div style="text-align:center"><img src ="Images/new_feature_importances.png" /></div>
 
 But before I check this off as a success, the model needs further validation. One glaring concern is **sequential data** is being evaluated on **non-sequential** evaluation metrics. What matters most for this use-case is the time a user has to react to a toxic event. I wrote a custom evaluation function to record the model lag - the time between when the 8-hour window starts, and when the model predicts an event will occur within the next 8 hours.
 
