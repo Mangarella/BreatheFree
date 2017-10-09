@@ -54,30 +54,7 @@ class FeatureEngineering:
                 self.data[feat + '_roll_std_' + label] = (self.data[feat]
                                                              .groupby(level=0)
                                                    .rolling(time).std().values)
-    
-    
-    def add_deriv_stats(self):
-        '''
-        Method to add rolling statistics to derivative.
-        
-        Inputs: Only self
-        Outputs: self.data with added rolling statistics on derivative
-        '''
-        self.data = self.data.groupby(level=0).apply(self.deriv_stats)
-
-
-    def deriv_stats(self, df):
-        '''
-        Groupby function called by method add_deriv_stats to add 
-        features for each user device
-        '''
-        for feat in ['toxin_a', 'toxin_b', 'toxin_c', 'toxin_d', 'toxin_e']:
-            df[feat + '_1_period_change'] = (df[feat] / df[feat].shift(1) - 1) *100
-            df[feat + '_1_period_mn'] = df[feat + '_1_period_change'].rolling(10).mean()
-            df[feat + '_1_period_md'] = df[feat + '_1_period_change'].rolling(10).median()
-            df[feat + '_1_period_std'] = df[feat + '_1_period_change'].rolling(10).std()
-        return df
-
+                
 
     def add_long_term_stats(self):
         '''
@@ -96,6 +73,7 @@ class FeatureEngineering:
         '''
         for feat in ['toxin_a', 'toxin_b', 'toxin_c', 'toxin_d', 'toxin_e']:
             df[feat + '_daily_roll_max'] = df[feat].rolling(96).max()
+            df[feat + '_daily_roll_min'] = df[feat].rolling(96).min()
         return df
     
     
