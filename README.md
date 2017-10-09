@@ -62,10 +62,10 @@ With these assumptions, I engineered features to represent previous location-spe
 
 <div style="text-align:center"><img src ="Images/new_feature_engineering.png" /></div>
 
-Five main types of features were fed to a [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html):
-1. **Date and Time:** Day of the week and time of day to capture differences between weekday and weekend, morning and night schedules.
-2. **General Trend:** Rolling Mean, Median, Max, and Standard Deviation of **Pollutant A** for the past 1 hr, 4 hrs, and 8 hrs to capture general trends of a location and previous behavior. 
-3. **Rate of Change Trend:**  Rolling Mean and Median for the rate of change for **Pollutant A** to capture a characteristic sensor response for similiar behaviors between different locations.
+Four main types of features were fed to a [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html):
+1. **General Trend:** Rolling Mean, Median, Standard Deviation of **Pollutant A** for the past 1 hr, 4 hrs, and 8 hrs to capture a characteristic sensor response for similiar behaviors between different locations.
+2. **Date and Time:** Day of the week and time of day to capture differences between weekday and weekend, morning and night schedules.
+3. **Individual Patterns:**  Rolling Max and Min for **Pollutant A** to capture the repetitive patterns of behavior for an individual user.
 4. **Outdoor Weather:** Daily Humidity, Temperature, Precipitation, and Dew Point data scraped from [Weather Underground](https://www.wunderground.com) using [Beautiful Soup](https://pypi.python.org/pypi/beautifulsoup4) to capture seasonal effects.
 5. **Pollutant Level:** Current Level of **Pollutant A** to factor in the distance to the hazardous level.
 
