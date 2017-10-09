@@ -60,7 +60,7 @@ With these assumptions, I engineered features to represent previous location-spe
 
 # <a name="feat_engineering">Feature Engineering</a>
 
-<div style="text-align:center"><img src ="Images/feature_engineering.png" /></div>
+<div style="text-align:center"><img src ="Images/new_feature_engineering.png" /></div>
 
 Five main types of features were fed to a [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html):
 1. **Date and Time:** Day of the week and time of day to capture differences between weekday and weekend, morning and night schedules.
