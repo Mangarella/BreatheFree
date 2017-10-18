@@ -14,6 +14,10 @@ class FeatureEngineering:
     time features (add_time_features),
     generate a forecast based on a cutoff (class_generation),
     and create a class (quick_cutoff)
+    
+    Please Note: As this was a consulting project, pollutant names
+    have been anonymized and some features have been removed from the
+    model.
     '''
     
     def __init__(self, df_agg_data):
