@@ -35,7 +35,7 @@ class FeatureEngineering:
         
         Optional Inputs are:
             
-            --times (list):  Custom number of 15 minute segments for 
+            --times (list):  Custom number of 15 minute segments
             --labels (list): Labels should match number of hours or minutes of
                              times variable.
                              
