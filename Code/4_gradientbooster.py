@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import GradientBoostingClassifier
 
+
 class GradientBooster():
     '''Gradient Booster Class to set up classification (classification_setup)
     perform undersampling (under_sample_folds)
